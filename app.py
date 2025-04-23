@@ -8,7 +8,7 @@ st.title("FINRA BrokerCheck Explorer")
 # Load and cache the data
 @st.cache_data
 def load_data():
-    df = pd.read_csv("all_brokers_output.csv", dtype=str)
+    df = pd.read_csv("https://drive.google.com/file/d/1I1l_eQjjWnCx-TH565BeNv6EOIJbnsFH/view?usp=sharing", dtype=str)
     df["BrokerCheck Profile URL"] = df["BrokerCheck Profile URL"].apply(
     lambda url: f'<a href={url} target="_blank">Open</a>'
 )
