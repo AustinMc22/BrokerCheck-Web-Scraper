@@ -7,11 +7,15 @@ st.title("FINRA BrokerCheck Explorer")
 
 # Load and cache the data
 @st.cache_data
+@st.cache_data
 def load_data():
     df = pd.read_csv("https://drive.google.com/uc?id=1I1l_eQjjWnCx-TH565BeNv6EOIJbnsFH&export=download", dtype=str)
-    df["BrokerCheck Profile URL"] = df["BrokerCheck Profile URL"].apply(
-    lambda url: f'<a href={url} target="_blank">Open</a>'
-)
+    st.write("Available Columns:", df.columns.tolist())  # TEMPORARY: show column names
+    # Add clickable hyperlink column
+    if "BrokerCheck Profile URL" in df.columns:
+        df["BrokerCheck Profile URL"] = df["BrokerCheck Profile URL"].apply(
+            lambda url: f'<a href="{url}" target="_blank">Open</a>' if pd.notna(url) else ""
+    )
     return df
 
 df = load_data()
