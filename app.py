@@ -7,24 +7,21 @@ st.title("FINRA BrokerCheck Explorer")
 
 # Load and cache the data
 @st.cache_data
-@st.cache_data
 def load_data():
-    df = pd.read_csv("https://drive.google.com/uc?id=1I1l_eQjjWnCx-TH565BeNv6EOIJbnsFH&export=download", dtype=str)
-    st.write("Available Columns:", df.columns.tolist())  # TEMPORARY: show column names
-    # Add clickable hyperlink column
-    if "BrokerCheck Profile URL" in df.columns:
-        df["BrokerCheck Profile URL"] = df["BrokerCheck Profile URL"].apply(
-            lambda url: f'<a href="{url}" target="_blank">Open</a>' if pd.notna(url) else ""
-    )
+    # Replace with your feather file path
+    df = pd.read_feather("all_brokers_output.feather")
     return df
 
-df = load_data()
+with st.spinner("Loading data..."):
+    df = load_data()
 
-# Sidebar Filters
+# Sidebar Filters (limited to key columns for speed)
 st.sidebar.header("Filter Options")
+filter_cols = ["City", "State", "Current Firms", "Licenses"]
 filters = {}
-for col in df.columns:
-    filters[col] = st.sidebar.text_input(f"{col} contains:", "")
+for col in filter_cols:
+    if col in df.columns:
+        filters[col] = st.sidebar.text_input(f"{col} contains:", "")
 
 # Apply filters
 filtered_df = df.copy()
@@ -48,6 +45,6 @@ if total_rows > 0:
     paginated_df = filtered_df.iloc[start_idx:end_idx]
 
     st.markdown(f"### Showing {len(filtered_df):,} of {len(df):,} broker profiles")
-    st.markdown(paginated_df.to_html(escape=False, index=False), unsafe_allow_html=True)
+    st.dataframe(paginated_df)
 else:
     st.markdown("### No results found. Try adjusting your filters.")
