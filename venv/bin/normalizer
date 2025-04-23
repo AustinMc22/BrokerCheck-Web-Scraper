@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/austinmcculloh/Desktop/ReplyAssist/FINRA RIA Scraper/finra-ria-scraper/venv/bin/python3.11" "$0" "$@"
+'''exec' "/Users/austinmcculloh/Documents/ReplyAssist Codebase - 4.12.25/finra-ria-scraper/venv/bin/python3.11" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

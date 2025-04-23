@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/austinmcculloh/Desktop/ReplyAssist/FINRA RIA Scraper/finra-ria-scraper/venv"
+set -gx VIRTUAL_ENV "/Users/austinmcculloh/Documents/ReplyAssist Codebase - 4.12.25/finra-ria-scraper/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
