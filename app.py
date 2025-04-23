@@ -6,10 +6,12 @@ st.set_page_config(layout="wide")
 st.title("FINRA BrokerCheck Explorer")
 
 @st.cache_data
+@st.cache_data
 def load_data():
     df = pd.read_feather("all_brokers_output.feather")
     
-    # Clean up and hyperlink the BrokerCheck Profile URL column
+    # Strip surrounding quotes and hyperlink properly
+    df["BrokerCheck Profile URL"] = df["BrokerCheck Profile URL"].str.replace('"', '', regex=False)
     df["BrokerCheck Profile URL"] = df["BrokerCheck Profile URL"].apply(
         lambda url: f'<a href="{url}" target="_blank">{url}</a>'
     )
