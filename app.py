@@ -8,20 +8,27 @@ st.title("FINRA BrokerCheck Explorer")
 # Load and cache the data
 @st.cache_data
 def load_data():
-    # Replace with your feather file path
     df = pd.read_feather("all_brokers_output.feather")
     return df
 
-with st.spinner("Loading data..."):
-    df = load_data()
+df = load_data()
 
-# Sidebar Filters (limited to key columns for speed)
+# Sidebar Filters
 st.sidebar.header("Filter Options")
-filter_cols = ["City", "State", "Current Firms", "Licenses"]
-filters = {}
-for col in filter_cols:
-    if col in df.columns:
-        filters[col] = st.sidebar.text_input(f"{col} contains:", "")
+filters = {
+    "BrokerCheck Profile URL": st.sidebar.text_input("BrokerCheck Profile URL contains:"),
+    "CRD#": st.sidebar.text_input("CRD# contains:"),
+    "Full name": st.sidebar.text_input("Full name contains:"),
+    "City": st.sidebar.text_input("City contains:"),
+    "State": st.sidebar.text_input("State contains:"),
+    "Zip code": st.sidebar.text_input("Zip code contains:"),
+    "Current Firms": st.sidebar.text_input("Current Firms contains:"),
+    "Previous Firms": st.sidebar.text_input("Previous Firms contains:"),
+    "Year First Registered": st.sidebar.text_input("Year First Registered contains:"),
+    "Licenses": st.sidebar.text_input("Licenses contains:"),
+    "Disclosures": st.sidebar.text_input("Disclosures contains:"),
+    "Registration Type": st.sidebar.text_input("Registration Type contains:")
+}
 
 # Apply filters
 filtered_df = df.copy()
@@ -44,7 +51,15 @@ if total_rows > 0:
     end_idx = start_idx + rows_per_page
     paginated_df = filtered_df.iloc[start_idx:end_idx]
 
+    # Reorder columns to ensure consistent display
+    column_order = [
+        "BrokerCheck Profile URL", "CRD#", "Full name", "City", "State", "Zip code",
+        "Current Firms", "Previous Firms", "Year First Registered", "Licenses",
+        "Disclosures", "Registration Type"
+    ]
+    paginated_df = paginated_df[column_order]
+
     st.markdown(f"### Showing {len(filtered_df):,} of {len(df):,} broker profiles")
-    st.dataframe(paginated_df)
+    st.markdown(paginated_df.to_html(escape=False, index=False), unsafe_allow_html=True)
 else:
     st.markdown("### No results found. Try adjusting your filters.")
