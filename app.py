@@ -3,7 +3,7 @@ import pandas as pd
 import math
 
 st.set_page_config(layout="wide")
-st.title("FINRA BrokerCheck Explorer")
+st.title("BrokerCheck Active Brokers")
 
 # Load and cache the data
 @st.cache_data
@@ -47,3 +47,5 @@ if total_rows > 0:
     st.markdown(paginated_df.to_html(escape=False, index=False), unsafe_allow_html=True)
 else:
     st.markdown("### No results found. Try adjusting your filters.")
+
+# Test - nothing related to above
